@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), #a)
     path('', include('blog.urls')),
     path('api-token-auth/', obtain_auth_token), #added
 ]
