@@ -41,7 +41,18 @@ INSTALLED_APPS = [
     'blog',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_extensions',
 ]
+LOGIN_REDIRECT_URL = 'post_list'
+LOGOUT_REDIRECT_URL = 'initial'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+MIME_TYPES = {
+    '.css': 'text/css',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -14,8 +14,10 @@
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
+.a h1{
     font-family: 'Lobster', cursive;
+    font-size: 20px;
+    margin-left: 70px;
 }
 
 .date {
@@ -43,4 +45,37 @@ h1, h2, h3, h4 {
 
 .post h1 a, .post h1 a:visited {
     color: #000000;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #39459b;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.2s linear;
+}
+
+.btn:hover {
+    background-color: #299cd1;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #1e7e34;
 }

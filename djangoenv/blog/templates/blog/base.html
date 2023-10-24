@@ -9,14 +9,19 @@
 <body>
     <div class="page-header">
         <h1><a href="/">Farm Protection</a></h1>
+        <a href="{% url 'login' %}" class="btn btn-success" style="font-size: 25px;margin-left: 1200px">로그인</a>
+        <a href="{% url 'register_user' %}" class="btn btn-primary" style="font-size: 25px;margin-left: 20px">회원가입</a>
     </div>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
-            </div>
+    <div class="a" style="margin-left:40;">
+      <h3>Made by KHU 소프트웨어융합학과 이정원</h3>
+    </div>
+      <div class="a" style="margin-left:40;">
+            <h2>  Use yolov5, a computer vision technology, to detect harmful tides and protect crops safely </h2>
         </div>
-    </div>
+        <img src="https://walandtrusts.org/wordpress/wp-content/uploads/2017/10/SSCFLT_ScatterCreek_rowcrops_PCFletcherWard.jpeg" alt="농작물 이미지"
+        width="900"  
+     height="500"
+     style="margin-left: 360;"
+      >
 </body>
 </html>
