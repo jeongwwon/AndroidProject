@@ -3,10 +3,7 @@
 {% block content %}
     {% for post in posts %}
         <div class="post">
-            <div class="date">
-                {{ post.published_date }}
-            </div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <h1 style="font-size: 30px;"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.published_date|date:"Y년 n월 j일 H시 i분 s초" }}</a></h1>
             <p>{{ post.text|linebreaksbr }}</p>
             <img src="{{ post.image.url }}" alt="{{ post.title }} Image">
         </div>
