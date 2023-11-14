@@ -6,8 +6,12 @@ from .models import Post
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from .serializers import SignUpSerializer
+from .models import ResponseModel
+from django.contrib.auth import authenticate, login
 
 def initial(request):
     return render(request,'blog/base.html')
@@ -39,3 +43,56 @@ def register_user(request):
             return render(request, 'blog/register.html', {'message': '회원이 이미 있음'})
     else:
         return render(request, 'blog/register.html')
+    
+@api_view(['POST'])
+def mobile_register_user(request):
+    if request.method == 'POST':
+        serializer = SignUpSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            email = serializer.validated_data['email']
+
+            # Check if the user already exists
+            if User.objects.filter(username=username).exists():
+                response_data = ResponseModel(issuccess=False, message="이미 가입된 사용자가 있습니다.")
+                return Response(response_data.__dict__, status=status.HTTP_400_BAD_REQUEST)
+
+            # Create a new user
+            new_user = User.objects.create_user(username=username, password=password, email=email)
+            new_user.save()
+
+            response_data = ResponseModel(issuccess=True, message="회원가입이 완료되었습니다.")
+            return Response(response_data.__dict__, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+def mobile_login(request):
+    if request.method == 'POST':
+        username = request.data.get('username', '')
+        password = request.data.get('password', '')
+
+        # Check if the provided credentials are valid
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+
+            response_data = {
+                'status': 'success',
+                'message': 'Login successful',
+                'issuccess': True,
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        else:
+            response_data = {
+                'status': 'error',
+                'message': 'Invalid credentials',
+                'issuccess': False,
+            }
+
+            return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
+

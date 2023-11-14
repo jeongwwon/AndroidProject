@@ -20,5 +20,13 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
+class ResponseModel(models.Model):
+    status = models.CharField(max_length=255, default="")
+    message = models.CharField(max_length=255, default="")
+    issuccess = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.status} - {self.message} - {self.issuccess}"
+    
 
 
