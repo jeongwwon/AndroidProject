@@ -48,6 +48,7 @@ def register_user(request):
 def mobile_register_user(request):
     if request.method == 'POST':
         serializer = SignUpSerializer(data=request.data)
+        response_data = None
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
@@ -56,16 +57,22 @@ def mobile_register_user(request):
             # Check if the user already exists
             if User.objects.filter(username=username).exists():
                 response_data = ResponseModel(issuccess=False, message="이미 가입된 사용자가 있습니다.")
-                return Response(response_data.__dict__, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'status': response_data.status,
+                'message': response_data.message,
+                'issuccess': response_data.issuccess,}, status=status.HTTP_400_BAD_REQUEST)
 
             # Create a new user
             new_user = User.objects.create_user(username=username, password=password, email=email)
             new_user.save()
 
             response_data = ResponseModel(issuccess=True, message="회원가입이 완료되었습니다.")
-            return Response(response_data.__dict__, status=status.HTTP_201_CREATED)
+            return Response({'status': response_data.status,
+                'message': response_data.message,
+                'issuccess': response_data.issuccess,},status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'status': response_data.status,
+                'message': response_data.message,
+                'issuccess': response_data.issuccess,}, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
 def mobile_login(request):
