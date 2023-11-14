@@ -12,6 +12,8 @@ from rest_framework.authtoken.models import Token
 from .serializers import SignUpSerializer
 from .models import ResponseModel
 from django.contrib.auth import authenticate, login
+from rest_framework.decorators import parser_classes
+from rest_framework.parsers import JSONParser
 
 def initial(request):
     return render(request,'blog/base.html')
@@ -75,6 +77,7 @@ def mobile_register_user(request):
                 'issuccess': response_data.issuccess,}, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
+@parser_classes([JSONParser])
 def mobile_login(request):
     if request.method == 'POST':
         username = request.data.get('username', '')
