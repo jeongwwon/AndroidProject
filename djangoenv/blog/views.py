@@ -77,7 +77,6 @@ def mobile_register_user(request):
                 'issuccess': response_data.issuccess,}, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
-@parser_classes([JSONParser])
 def mobile_login(request):
     if request.method == 'POST':
         username = request.data.get('username', '')
