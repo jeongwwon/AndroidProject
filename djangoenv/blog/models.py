@@ -27,7 +27,6 @@ class Post(models.Model):
     published_date = models.DateTimeField(
     blank=True, null=True)
     image = models.ImageField(upload_to='intruder_image/%Y/%m/%d/',default='intruder_image/default_error.png')
-    count = models.IntegerField(default=0)
     global_count = models.ForeignKey(GlobalPostCount, on_delete=models.CASCADE, null=True, blank=True)
     def publish(self):
         self.published_date = timezone.now()
