@@ -5,7 +5,7 @@ from rest_framework import serializers
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
-        fields = ('title', 'text', 'created_date', 'published_date', 'image','global_count')
+        fields = ('title', 'text', 'created_date', 'published_date', 'image','count','global_count')
 
 class SignUpSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
