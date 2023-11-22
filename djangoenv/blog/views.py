@@ -10,13 +10,13 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import SignUpSerializer
-from .models import ResponseModel
+from .models import GlobalPostCount,ResponseModel
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
-
-total=0
+from datetime import date
+from django.db.models import Sum
 
 def initial(request):
     return render(request,'blog/base.html')
@@ -49,24 +49,16 @@ def register_user(request):
     else:
         return render(request, 'blog/register.html')
     
-def update_animal_count(request):
-    global total
-    # POST 요청으로 들어온 데이터 처리
-    animal_type = request.POST.get('type')  # 'wild_boar' 또는 'deer'
-    count = int(request.POST.get('count'))
 
-    # 개체 수 갱신
-    if animal_type == 'WildBoar':
-        total += count
-    elif animal_type == 'Deer':
-        total += count
+def get_global_count(request):
+    # GlobalPostCount 모델의 count 반환
+    global_count = GlobalPostCount.objects.first()
+    return JsonResponse({'global_count': global_count.count})
 
-    return Response(status=200)
-
-def get_animal_count(request):
-    global total
-    
-    return Response({'total':total})
+def get_today_count(request):
+    # 오늘의 count 반환
+    today_count = Post.objects.filter(created_date__date=date.today()).aggregate(Sum('count'))['count__sum']
+    return JsonResponse({'today_count': today_count})
 
 @api_view(['POST'])
 def mobile_register_user(request):
