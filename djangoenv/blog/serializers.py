@@ -1,6 +1,11 @@
 from blog.models import Post
+from blog.models import GlobalPostCount
 from rest_framework import serializers
 
+class GlobalPostCountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GlobalPostCount
+        fields = ('count')
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

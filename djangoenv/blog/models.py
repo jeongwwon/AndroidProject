@@ -37,8 +37,7 @@ class Post(models.Model):
     def publish(self):
         self.published_date = timezone.now()
         self.save()
-        global_count_instance = GlobalPostCount.get_instance()
-        global_count_instance.increment_count(self.count)
+        GlobalPostCount.objects.first().increment_count(self.count)
 
     def today_count(self):
         today = date.today()
