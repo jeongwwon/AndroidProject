@@ -5,7 +5,7 @@ from rest_framework import serializers
 class GlobalPostCountSerializer(serializers.ModelSerializer):
     class Meta:
         model = GlobalPostCount
-        fields = ('count')
+        fields = ('total','count')
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
