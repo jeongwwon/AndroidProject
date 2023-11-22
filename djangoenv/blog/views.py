@@ -120,3 +120,10 @@ def mobile_login(request):
 
             return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
 
+@api_view(['GET'])
+def get_date_list(request):
+    # Get a list of publish_date from Post model
+    post_dates = Post.objects.values_list('publish_date', flat=True)
+    # Convert QuerySet to list
+    date_list = list(post_dates)
+    return Response({'dateList': date_list})
