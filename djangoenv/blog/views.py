@@ -53,7 +53,8 @@ def register_user(request):
 def get_global_count(request):
     # GlobalPostCount 모델의 count 반환
     global_count = GlobalPostCount.get_instance().count
-    return JsonResponse({'global_count': global_count})
+    all_count = Post.objects.aggregate(Sum('count'))['count__sum']
+    return JsonResponse({'global_count': all_count})
 
 def get_today_count(request):
     # 오늘의 count 반환
