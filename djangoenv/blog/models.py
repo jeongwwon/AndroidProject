@@ -17,6 +17,12 @@ class GlobalPostCount(models.Model):
         if self.count >= count:
             self.count -= count
             self.save()
+            
+    @classmethod
+    def get_instance(cls):
+        # 클래스 메서드를 통해 항상 하나의 객체를 반환
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
