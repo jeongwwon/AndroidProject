@@ -17,7 +17,7 @@ class GlobalPostCount(models.Model):
         if self.count >= count:
             self.count -= count
             self.save()
-            
+
     @classmethod
     def get_instance(cls):
         # 클래스 메서드를 통해 항상 하나의 객체를 반환
@@ -34,13 +34,11 @@ class Post(models.Model):
     blank=True, null=True)
     image = models.ImageField(upload_to='intruder_image/%Y/%m/%d/',default='intruder_image/default_error.png')
     count = models.IntegerField(default=0)
-    global_count = models.ForeignKey(GlobalPostCount, on_delete=models.CASCADE, null=True, blank=True)
     def publish(self):
         self.published_date = timezone.now()
         self.save()
-
-        if self.count:
-            self.global_count.increment_count(self.count)
+        global_count_instance = GlobalPostCount.get_instance()
+        global_count_instance.increment_count(self.count)
 
     def today_count(self):
         today = date.today()
