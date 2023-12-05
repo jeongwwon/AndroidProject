@@ -125,9 +125,9 @@ def mobile_login(request):
 def get_post_list(request):
     # Get a list of Post objects
     posts = Post.objects.all()
-    
-    # Serialize the list of Post objects
-    serializer = PostSerializer2(posts, many=True)
-    
+
+    # Serialize the list of Post objects using the updated serializer
+    serializer = PostSerializer2(posts, many=True, context={'request': request})
+
     # Return the serialized data
     return Response(serializer.data)
