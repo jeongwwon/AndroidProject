@@ -35,8 +35,11 @@ class Post(models.Model):
     image = models.ImageField(upload_to='intruder_image/%Y/%m/%d/',default='intruder_image/default_error.png')
     count = models.IntegerField(default=0)
     
-    def __init__(self):
-        GlobalPostCount.get_instance().increment_count(self.count)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # Increment count only if it's a new post (not updating an existing one)
+            GlobalPostCount.get_instance().increment_count(self.count)
+        super().save(*args, **kwargs)
 
     def publish(self):
         self.published_date = timezone.now()
