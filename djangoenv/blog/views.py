@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import SignUpSerializer
+from .serializers import PostSerializer2
 from .models import GlobalPostCount,ResponseModel
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import parser_classes
@@ -121,9 +122,12 @@ def mobile_login(request):
             return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET'])
-def get_date_list(request):
-    # Get a list of publish_date from Post model
-    post_dates = Post.objects.values_list('published_date', flat=True)
-    # Convert QuerySet to list
-    date_list = list(post_dates)
-    return Response({'date_list': date_list})
+def get_post_list(request):
+    # Get a list of Post objects
+    posts = Post.objects.all()
+    
+    # Serialize the list of Post objects
+    serializer = PostSerializer2(posts, many=True)
+    
+    # Return the serialized data
+    return Response(serializer.data)

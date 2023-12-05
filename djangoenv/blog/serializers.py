@@ -12,6 +12,11 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         model = Post
         fields = ('title', 'text', 'created_date', 'published_date', 'image','count')
 
+class PostSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('img', 'published_date', 'text')
+
 class SignUpSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(write_only=True)
