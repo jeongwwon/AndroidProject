@@ -15,7 +15,20 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 class PostSerializer2(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('image', 'published_date', 'text')
+        fields = ('published_date', 'text')  # Exclude 'image' field as it will be handled separately
+
+    def to_representation(self, instance):
+        # Get the base URL from the request
+        base_url = self.context['request'].build_absolute_uri('/')
+
+        # Create a dictionary with the fields from the model
+        representation = super().to_representation(instance)
+
+        # Add the base URL to the 'image' field if it exists
+        if instance.image:
+            representation['image'] = f"{base_url}{instance.image.url}"
+
+        return representation
 
 class SignUpSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
